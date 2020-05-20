@@ -2,6 +2,8 @@ import tensorflow as tf
 import numpy as np
 import logging
 
+history = ""
+
 #telling the tensorflow to log the errors if there is
 logger = tf.get_logger()
 logger.setLevel(logging.ERROR)
@@ -20,9 +22,11 @@ def train_model(celsius, fahrenheit):
     model = tf.keras.Sequential([l0])
 
     #compile the model with the loss and optimizer
-    model.compile(loss='mean_squared_error',
-                    optimizer=tf.keras.optimizers.Adam(0.1))
+    model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(0.1))
 
+    #declaring history to be global
+    global history
+    
     #then train the model
     history = model.fit(celsius, fahrenheit, epochs=500, verbose=False)
 
