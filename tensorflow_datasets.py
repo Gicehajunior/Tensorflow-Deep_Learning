@@ -42,8 +42,10 @@ def explore(metadata):
     num_train_examples = metadata.splits['train'].num_examples
     num_test_examples = metadata.splits['test'].num_examples
 
+    
     print("Number of training examples: {}".format(num_train_examples))
     print("Number of test examples:     {}".format(num_test_examples))
+    return num_train_examples
 
 explore(metadata)
 
