@@ -34,4 +34,10 @@ def single_img_predict():
     
     image_shape_prediction = prediction.shape
     
-    
+    return prediction, image_shape_prediction
+
+single_image_prediction = single_img_predict()
+
+
+
+
