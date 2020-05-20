@@ -89,7 +89,7 @@ def plot_1_image(reshaped_image,):
 drawnImage = plot_1_image(select_each_image())
 
 # select 25 images from the set
-def select_25_images(sets_of_images):
+def select_25_images(sets_of_images, cloths_classes):
     plot.figure(figsize=(10,10))
     i = 0
     for (image, label) in sets_of_images.take(25):
@@ -100,11 +100,11 @@ def select_25_images(sets_of_images):
         plot.yticks([])
         plot.grid(False)
         plot.imshow(image, cmap=plot.cm.binary)
-        plot.xlabel(cloth_classes[label])
+        plot.xlabel(cloths_classes[label])
 
         #iterate
         i += 1
         
         plot.show()
-newDrawnImage = select_25_images(test_data)
+newDrawnImage = select_25_images(test_data, cloth_classes)
 
