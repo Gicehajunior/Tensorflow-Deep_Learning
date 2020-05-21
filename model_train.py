@@ -5,8 +5,11 @@ import logging
 history = ""
 
 #telling the tensorflow to log the errors if there is
-logger = tf.get_logger()
-logger.setLevel(logging.ERROR)
+def logging():
+    logger = tf.get_logger()
+    logger.setLevel(logging.ERROR)
+    
+logging()
 
 #MODEL TRAINING
 

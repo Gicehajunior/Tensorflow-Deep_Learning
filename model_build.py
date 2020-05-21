@@ -51,10 +51,3 @@ def train_model(fresh_optimized_model):
     return ready_model
 
 ready_model = train_model(optimized_model)
-
-
-
-
-
-
-
