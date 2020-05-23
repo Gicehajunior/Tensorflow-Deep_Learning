@@ -22,7 +22,7 @@ def train_model(celsius, fahrenheit):
     #assemble the layers into the model
     l0 = tf.keras.layers.Dense(units=1, input_shape=[1])
 
-    model = tf.keras.Sequential([l0])
+    model = tf.keras.models.Sequential([l0])
 
     #compile the model with the loss and optimizer
     model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(0.1))

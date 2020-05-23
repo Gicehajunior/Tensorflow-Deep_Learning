@@ -15,10 +15,10 @@ def ml_model():
     relu = tf.nn.relu
     softmax = tf.nn.softmax
 
-    model = tf.keras.Sequential([
+    model = tf.keras.models.Sequential([
         tf.keras.layers.flatten(input_shape=(28, 28, 1)),
-        tf.keras.layers.Dense(128, activation=relu),
-        tf.keras.layers.Dense(128, activation=softmax),
+        tf.keras.layers.Dense(128, activation=tf.nn.relu),
+        tf.keras.layers.Dense(128, activation=tf.nn.softmax),
         
     ])
 
@@ -43,6 +43,7 @@ def train_model(fresh_optimized_model):
     global trained_data_array
     global testing_data_array
     
+    # format the datasets to be ready for training
     trained_data_array = tensorflow_datasets.train_dataset.cache().repeat().shuffle(tensorflow_datasets.explore()).batch(BATCH_SIZE)
     testing_data_array = tensorflow_datasets.test_dataset.cache().batch(BATCH_SIZE)
     
