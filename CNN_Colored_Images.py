@@ -161,5 +161,5 @@ def train_model(model, train_total_data, test_total_data, train_data_dir, test_d
     return model
 
 train_model(optimized_model, dataset_directories[3], dataset_directories[4], train_dir_gen, test_dir_gen)
-    
+
 # # The model now ready for predictions
