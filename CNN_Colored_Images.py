@@ -1,18 +1,23 @@
 import tensorflow as tf
 import matplotlib.pyplot as plot
-import model_train 
 import logging
 import os
 import cv2
-global declaration of batch size
+
+#global declaration of batch size
 BATCH_SIZE = ""
 image_shape = ""
 
 train_directory = 'Resources/microsoft_datasets/cats_and_dogs/tests_cats_and_dogs'
 validation_directory = 'Resources/microsoft_datasets/cats_and_dogs/train_cats_and_dogs'
 categories = ["cats", "dogs"]
+#telling the tensorflow to log the errors if there is
+def logging():
+    logger = tf.get_logger()
+    logger.setLevel(logging.ERROR)
+    
+logging()
 
-model_train.logging()
 
 def load_images(train_directory, test_directory, data_categories):
     # preprocessing train data=> of cats and dogs
@@ -92,10 +97,12 @@ def format_pictures(training_data, testing_data):
         fill_mode='nearest'
         )
     
-    global BATCH_SIZE = 100
-    global image_shape = 150
+    global BATCH_SIZE
+    global image_shape
     
-    
+    BATCH_SIZE = 100
+    image_shape = 150
+
     test_data_generator = test_image_generator.flow_from_directory(
         batch_size = BATCH_SIZE,
         directory = testing_data,
@@ -124,16 +131,22 @@ train_dir_gen = formated_images[1]
 # # CREATE THE MODEL NOW
 def model():
     model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv2D(32, (3, 3), padding='same', activation=tf.nn.relu input_shape=(150,150,3))
-        tf.keras.layers.MaxPooling2D(2, 2)
-        tf.keras.layers.Conv2D(64, (3, 3), activation=tf.nn.relu)
-        tf.keras.layers.MaxPooling2D(2, 2)
-        tf.keras.layers.Conv2D(128, (3, 3), activation=tf.nn.relu)
-        tf.keras.layers.MaxPooling2D(2, 2)
-        tf.keras.layers.Conv2D(128, (3, 3), activation=tf.nn.relu)
-        tf.keras.layers.MaxPooling2D(2, 2)
-        tf.keras.layers.flatten()
-        tf.keras.layers.Dense(512, activation=tf.nn.relu)
+        tf.keras.layers.Conv2D(
+            32, 
+            (3, 3), 
+            padding='same', 
+            activation=tf.nn.relu, 
+            input_shape=(150,150,3)
+            ),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.Conv2D(64, (3, 3), activation=tf.nn.relu),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.Conv2D(128, (3, 3), activation=tf.nn.relu),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.Conv2D(128, (3, 3), activation=tf.nn.relu),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.flatten(),
+        tf.keras.layers.Dense(512, activation=tf.nn.relu),
         tf.keras.layers.Dense(2, activation=tf.nn.softmax)
     ])
     
@@ -143,8 +156,8 @@ model = model()
 def optimize(unoptimized_model):
     model = unoptimized_model.compile(
         optimizer='adams',
-        loss=tf.keras.losses=SparseCategoricalCrossentrophy(from_logits=True),
-        metrics['accuracy']
+        loss=tf.keras.losses.SparseCategoricalCrossentrophy(from_logits=True),
+        metrics=['accuracy']
         )
     return model
 
