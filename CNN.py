@@ -4,8 +4,7 @@ import math
 import logging
 import model_train
 
-
-model_train.logging
+model_train.logging()
 
 # our model incorporated with CNN, and maxPooling capabilities
 def model():
@@ -13,9 +12,9 @@ def model():
         tf.keras.layers.Conv2D(32, (3, 3), padding='same', activation=tf.nn.relu, input_shape=(28, 28, 1)),
         tf.keras.layers.maxPooling2D((2, 2), strides=2),
         tf.keras.layers.Conv2D(64, (3, 3), padding='same', activation=tf.nn.relu),
-        tf.keras.layers.flatten()
+        tf.keras.layers.flatten(),
         tf.keras.layers.maxPooling2D((2, 2), strides=2),
-        tf.keras.layers.Dense(128, activation=tf.nn.relu)
+        tf.keras.layers.Dense(128, activation=tf.nn.relu),
         tf.keras.layers.Dense(10, activation=tf.nn.softmax)
     ])
     
