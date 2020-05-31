@@ -12,9 +12,6 @@ testing_data_array = ""
 
 # setup the layers of our model
 def ml_model():
-    relu = tf.nn.relu
-    softmax = tf.nn.softmax
-
     model = tf.keras.models.Sequential([
         tf.keras.layers.flatten(input_shape=(28, 28, 1)),
         tf.keras.layers.Dense(128, activation=tf.nn.relu),
@@ -27,7 +24,10 @@ model = ml_model()
 
 # compile the model for build by optimization
 def optimizer(unoptimized_model):
-    model = model.compile(optimizer='adams', loss=tf.keras.loss.SparseCategoricalCrosstrophy(), metrics=['metrics'])
+    model = model.compile(
+            optimizer='adams', 
+            loss=tf.keras.loss.SparseCategoricalCrosstrophy(), 
+            metrics=['activate'])
     
     optimized_model = model
     

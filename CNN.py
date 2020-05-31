@@ -17,6 +17,7 @@ def model():
         tf.keras.layers.Dense(128, activation=tf.nn.relu),
         tf.keras.layers.Dense(10, activation=tf.nn.softmax)
     ])
+    return model
     
 model = model()
 
@@ -24,9 +25,13 @@ model = model()
 def compile_model(uncompiled_model):
     
     # optimization of our model 
-    optimizable_model = uncompiled_model.compile(optimizer='adams', loss=tf.keras.SparseCategoricalCrossentropy(), metrics=['activation'])
+    optimizable_model = uncompiled_model.compile(
+            optimizer='adams', 
+            loss=tf.keras.SparseCategoricalCrossentropy(), 
+            metrics=['activation']
+            )
 
-    return optimized_model
+    return optimizable_model
 
 trainable_model = compile_model(model)
 
@@ -43,9 +48,13 @@ def train_model(untrained_model):
     
     #to train our model to our data we should pass the datasets, epochs, math ceiling.
     # call the training function. by calling the method .fit()
-    trained_model = untrained_model.fit(test_data, epochs=5, steps_per_epoch=math.ceil(tfd.explore(metadata)/BATCH_SIZE))
+    trained_model = untrained_model.fit(
+            test_data, 
+            epochs=5, 
+            steps_per_epoch=math.ceil(tfd.explore()/BATCH_SIZE)
+            )
     
-    return trained_model
+    return [trained_model, training_data, test_data]
     
 trained_model = train_model(trainable_model)
 

@@ -12,7 +12,7 @@ import model_train
 
 # global declarationions of variables
 imageNet_labels = 'Resources/tensorflow_datasets'
-pretrained_model = 'Resources/pretrained_models/tensorflow_models/modileNet_V2_tf_model.pb'
+pretrained_model_path = 'Resources/pretrained_models/tensorflow_models/modileNet_V2_tf_model.pb'
 train_directory = 'Resources/microsoft_datasets/cats_and_dogs/tests_cats_and_dogs'
 validation_directory = 'Resources/microsoft_datasets/cats_and_dogs/train_cats_and_dogs'
 categories = ["cats", "dogs"]
@@ -78,13 +78,17 @@ def labels(imageNet_txt_filepath):
 image_labels = labels(imageNet_directory)
 
 def feature_extractor(pre_model_path):
+    pretrained_model = tf.saved_model.load(pretrained_model)
     
-    feature_extractor = hub.KerasLayer(os.listdir(pre_model_path), input_shape=(IMAGE_RES, IMAGE_RES,3))
+    # using our loaded model to extract features on our images
+    feature_extractor = hub.KerasLayer(pretrained_model, input_shape=(IMAGE_RES, IMAGE_RES,3))
+    
     # freeze the variables in this extractor layer
     feature_extractor.trainable = false
+    
     return feature_extractor
 
-ready_feature_extractor = feature_extractor(directory)
+ready_feature_extractor = feature_extractor(pretrained_model_path)
 
 # using a tensorflow hub mobileNet for preditions
 def model(feature_extractor): 
@@ -106,7 +110,7 @@ def compile_model(model):
     compiled_model = model.compile(
         optimizer='adams', 
         losses=SparseCategoricalCrossentrophy(from_logits=True), 
-        metrics['accuracy']
+        metrics=['accuracy']
         )
     
     return compile_model
