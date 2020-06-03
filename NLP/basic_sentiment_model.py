@@ -13,6 +13,17 @@ dataset = pd.read_csv('dataset_path')
 sentences = dataset['text'].tolist()
 labels = dataset['sentiment'].tolist()
 
+"""Subwords are another approach, 
+where individual words are broken up into the more commonly appearing pieces of themselves. 
+This helps avoid marking very rare words as OOV when you use only the most common words in a corpus."""
+vocab_size = 1000
+tokenizer = tfds.features.text.SubwordTextEncoder.build_from_corpus(sentences, vocab_size, max_subword_length=5)
+
+"""Replace sentence data with encoded subwords
+Now, we'll re-create the dataset to be used for training by actually encoding each of the individual sentences. """
+for i, sentence in enumerate(sentences):
+    sentences[i] = tokenizer.encode(sentence)
+
 # Separate out the sentences and labels into training and test sets
 training_size = int(len(sentences) * 0.8)
 
