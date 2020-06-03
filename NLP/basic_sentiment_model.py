@@ -25,6 +25,12 @@ testing_labels = labels[training_size:]
 training_labels_final = np.array(training_labels)
 testing_labels_final = np.array(testing_labels)
 
+vocab_size = 1000
+embedding_dim = 16
+max_length = 500
+trunc_type = 'post'
+padding_type = 'post'
+oov_tok = "<OOV>"
 
 tokenizer = Tokenizer(num_words=vocab_size, oov_token=oov_tok)
 tokenizer.fit_on_texts(training_sentences)
@@ -39,8 +45,7 @@ testing_padded = pad_sequences(testing_sequences, maxlen=max_length, padding=pad
 # Note the embedding layer is first,
 # and the output is only 1 node as it is either 0 or 1 (negative or positive)
 model = tf.keras.Sequential([
-    tf.keras.layers.Embedding(
-        vocab_size, embedding_dim, input_length=max_length),
+    tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length=max_length),
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(6, activation='relu'),
     tf.keras.layers.Dense(1, activation='sigmoid')
